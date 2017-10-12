@@ -1,0 +1,64 @@
+<div id="sidebar">
+
+							 <!--<form id="sideSubscribeForm">
+							 	<input type="text" value="" class="input-text" placeholder="Подписаться на расслыку">
+							 	<input type="submit" class="btn" value="Подписаться">
+							 </form>-->
+								<div class="subscribe-form" id="subscribe-form">
+
+<!--'start_frame_cache_subscribe-form'-->	<form action="http://vol.maxi-retail.ru/about/subscr_edit.php" id="sideSubscribeForm">
+
+			<label for="sf_RUB_ID_1" style="display: none">
+			<input type="checkbox" name="sf_RUB_ID[]" id="sf_RUB_ID_1" value="1" checked=""> Новости		</label>
+			<label for="sf_RUB_ID_3" style="display: none">
+			<input type="checkbox" name="sf_RUB_ID[]" id="sf_RUB_ID_3" value="3" checked=""> тест		</label>
+	
+		<input type="text" name="sf_EMAIL" class="input-text" placeholder="Подписаться на рассылку" value="" title="Введите ваш e-mail">
+		<input type="button" class="btn" name="OK" value="Подписаться">
+	</form>
+<!--'end_frame_cache_subscribe-form'--></div>
+<script>
+	$('form#sideSubscribeForm').on('click','input[name=OK]',function() {
+		//console.log(this);
+		var sf_EMAIL = $('input[name=sf_EMAIL]').val(),
+			btn = $(this);
+		if(sf_EMAIL.length == 0){
+			 	alert("Вы не ввели электронный адрес");
+			 	return false; 
+			 }
+		else {
+			btn.prop("disabled",true);
+		}
+		
+		var params = {sf_EMAIL:sf_EMAIL};
+		 $.ajax({
+		   type: "POST",
+		   url: "/include/ajax/subscrube.php",
+		   data: params,
+		   dataType: 'json',
+		   success: function(resp){
+		   //	console.log(resp);
+		     if(resp == '1'){
+			 	alert("Благодарим что подписались на нашу рассылку, на ваш email отправлено письмо с подтверждением подписки");
+			 	btn.prop("disabled",false);
+			 	return false;
+			 }
+			 if(resp == '0'){
+			 	alert("Вы уже подписаны");
+			 	btn.prop("disabled",false);
+			 	return false;
+			 }
+			 if(resp == '2'){
+			 	alert("Введите корректный email адрес");
+			 	btn.prop("disabled",false);
+			 	return false;
+			 }
+		   }
+		 });
+	});
+</script>							
+							 	
+							 								 	
+
+							 </div>
+							 </div> <!-- sidebar -->
