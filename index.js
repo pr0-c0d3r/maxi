@@ -1,5 +1,7 @@
 log=console.log;
 
+var TARGET_PORT = process.env.PORT || 8080;
+
 var express = require('express');
 var http=require('http');
 
@@ -17,8 +19,8 @@ var supportedMethods = ['/api/v1/shops','/api/v1/offers','/api/v1/categories'];
 
 supportedMethods.forEach((url)=>app.get(url,(cacheData?createCachingLoader:createLoader)(url)));
 
-app.listen(8080,()=>{
-	log('app up on http://127.0.0.1:8080');
+app.listen(TARGET_PORT,()=>{
+	log(`app up on http://127.0.0.1:${TARGET_PORT}`);
 });
 
 function createLoader(url){
